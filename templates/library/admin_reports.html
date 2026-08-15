@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}รายงานสถิติ{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-4">รายงานสถิติหนังสือยืม/คืน/ค่าปรับ 📊</h3>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-purple"><div class="label">ยืมทั้งหมด (สะสม)</div><h3>{{ total_borrowed_all_time }}</h3></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-teal"><div class="label">คืนแล้วทั้งหมด</div><h3>{{ total_returned }}</h3></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-amber"><div class="label">กำลังยืมอยู่</div><h3>{{ total_active_borrows }}</h3></div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-red"><div class="label">เกินกำหนดคืน</div><h3>{{ total_overdue }}</h3></div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-md-6">
+    <div class="card card-lib p-4">
+      <h6 class="fw-bold mb-1">💰 ค่าปรับสะสมทั้งหมด</h6>
+      <h2 class="fw-bold" style="color: var(--brand-purple);">{{ total_fine }} บาท</h2>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="card card-lib p-4">
+      <h6 class="fw-bold mb-1">👥 สมาชิกทั้งหมด</h6>
+      <h2 class="fw-bold" style="color: var(--brand-teal);">{{ total_members }} คน</h2>
+      <p class="text-muted small mb-0">คิวจองที่รออยู่: {{ total_reservations_waiting }} รายการ</p>
+    </div>
+  </div>
+</div>
+
+<h5 class="section-title">📈 หนังสือยอดนิยม (ยืมมากที่สุด 10 อันดับ)</h5>
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead><tr><th>#</th><th>ชื่อหนังสือ</th><th>หมวดหมู่</th><th>จำนวนครั้งที่ถูกยืม</th></tr></thead>
+    <tbody>
+      {% for book in top_books %}
+      <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ book.title }}</td>
+        <td><span class="badge bg-light text-dark border">{{ book.category }}</span></td>
+        <td><strong>{{ book.borrow_count }}</strong> ครั้ง</td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="4" class="empty-state">ยังไม่มีข้อมูล</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
