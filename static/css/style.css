@@ -1,0 +1,133 @@
+:root {
+  --brand-purple: #6c63ff;
+  --brand-purple-dark: #4b45c6;
+  --brand-pink: #ff6b9d;
+  --brand-teal: #2ec4b6;
+  --brand-amber: #ffb703;
+  --brand-green: #38b26f;
+  --brand-red: #e63946;
+  --bg-soft: #f6f7fb;
+  --card-radius: 18px;
+}
+
+body {
+  font-family: 'Prompt', 'Kanit', sans-serif;
+  background: var(--bg-soft);
+  color: #2d2a4a;
+}
+
+/* ---------- Navbar ---------- */
+.navbar-brand-lib {
+  font-weight: 700;
+  letter-spacing: .3px;
+}
+.navbar-lib {
+  background: linear-gradient(120deg, var(--brand-purple) 0%, var(--brand-purple-dark) 100%);
+  box-shadow: 0 4px 20px rgba(76, 69, 198, .25);
+}
+.navbar-lib .nav-link {
+  color: rgba(255,255,255,.9) !important;
+  font-weight: 500;
+}
+.navbar-lib .nav-link.active,
+.navbar-lib .nav-link:hover {
+  color: #fff !important;
+}
+.navbar-lib .navbar-brand {
+  color: #fff !important;
+}
+
+/* ---------- Auth pages ---------- */
+.auth-wrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6c63ff 0%, #4b45c6 50%, #2ec4b6 100%);
+  padding: 2rem 1rem;
+}
+.auth-card {
+  border: none;
+  border-radius: var(--card-radius);
+  box-shadow: 0 20px 60px rgba(20, 15, 70, .25);
+  overflow: hidden;
+  max-width: 960px;
+  width: 100%;
+}
+.auth-side {
+  background: linear-gradient(160deg, var(--brand-purple) 0%, var(--brand-teal) 120%);
+  color: #fff;
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.auth-side .emoji-icon { font-size: 3.2rem; }
+.auth-form-side { padding: 3rem 2.5rem; background: #fff; }
+
+/* ---------- Cards ---------- */
+.card-lib {
+  border: none;
+  border-radius: var(--card-radius);
+  box-shadow: 0 8px 24px rgba(60, 50, 130, .08);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card-lib:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px rgba(60, 50, 130, .14);
+}
+.stat-card {
+  border-radius: var(--card-radius);
+  padding: 1.4rem 1.6rem;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(60, 50, 130, .18);
+}
+.stat-card h3 { font-weight: 700; font-size: 2rem; margin-bottom: 0; }
+.stat-card .label { opacity: .9; font-size: .9rem; }
+.bg-grad-purple { background: linear-gradient(135deg, #6c63ff, #4b45c6); }
+.bg-grad-pink { background: linear-gradient(135deg, #ff6b9d, #d6407f); }
+.bg-grad-teal { background: linear-gradient(135deg, #2ec4b6, #1a9c8f); }
+.bg-grad-amber { background: linear-gradient(135deg, #ffb703, #fb8500); }
+.bg-grad-red { background: linear-gradient(135deg, #e63946, #b3232e); }
+.bg-grad-green { background: linear-gradient(135deg, #38b26f, #22824f); }
+
+/* ---------- Book cover ---------- */
+.book-cover {
+  height: 130px;
+  border-radius: 12px 12px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 2.2rem;
+}
+
+/* ---------- Section title ---------- */
+.section-title {
+  font-weight: 700;
+  border-left: 5px solid var(--brand-purple);
+  padding-left: .7rem;
+  margin-bottom: 1.2rem;
+}
+
+/* ---------- Badges ---------- */
+.badge-status { font-weight: 500; padding: .45em .8em; border-radius: 30px; }
+
+/* ---------- Sidebar quick menu ---------- */
+.quick-menu a {
+  text-decoration: none;
+  color: inherit;
+}
+.quick-menu .card-lib {
+  height: 100%;
+}
+
+/* ---------- Table ---------- */
+.table-lib thead {
+  background: #f0f0fb;
+}
+.table-lib td, .table-lib th { vertical-align: middle; }
+
+/* ---------- Misc ---------- */
+.rounded-xl { border-radius: var(--card-radius); }
+.empty-state { text-align: center; padding: 3rem 1rem; color: #9a97b8; }

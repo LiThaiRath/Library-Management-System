@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}สมัครสมาชิก - ห้องสมุดออนไลน์{% endblock %}
+{% block content %}
+<div class="auth-wrapper" style="margin: -1.5rem -12px 0;">
+  <div class="card auth-card" style="max-width: 760px;">
+    <div class="p-4 p-md-5">
+      <div class="text-center mb-4">
+        <div class="fs-1">📝</div>
+        <h4 class="fw-bold">สมัครสมาชิกห้องสมุด</h4>
+        <p class="text-muted small">กรอกข้อมูลให้ครบถ้วนเพื่อสร้างบัญชีสมาชิกนักเรียน</p>
+      </div>
+      <form method="post">
+        {% csrf_token %}
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">รหัสนักเรียน</label>
+            {{ form.student_id }}
+            {% for error in form.student_id.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">ชื่อ-นามสกุล</label>
+            {{ form.full_name }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">ชั้นเรียน</label>
+            {{ form.class_name }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">เบอร์โทรศัพท์</label>
+            {{ form.phone }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">อีเมล</label>
+            {{ form.email }}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">ชื่อผู้ใช้ (Username)</label>
+            {{ form.username }}
+            {% for error in form.username.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">รหัสผ่าน</label>
+            {{ form.password1 }}
+            {% for error in form.password1.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">ยืนยันรหัสผ่าน</label>
+            {{ form.password2 }}
+            {% for error in form.password2.errors %}<div class="text-danger small">{{ error }}</div>{% endfor %}
+          </div>
+        </div>
+        <button type="submit" class="btn btn-lg w-100 text-white fw-semibold mt-4" style="background: var(--brand-purple);">
+          สมัครสมาชิก
+        </button>
+      </form>
+      <p class="text-center mt-4 small">
+        มีบัญชีอยู่แล้ว? <a href="{% url 'login' %}">เข้าสู่ระบบ</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}

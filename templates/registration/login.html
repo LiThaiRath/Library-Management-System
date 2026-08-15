@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}เข้าสู่ระบบ - ห้องสมุดออนไลน์{% endblock %}
+{% block content %}
+<div class="auth-wrapper" style="margin: -1.5rem -12px 0;">
+  <div class="card auth-card">
+    <div class="row g-0">
+      <div class="col-md-5 auth-side">
+        <div class="emoji-icon mb-3">📚</div>
+        <h2 class="fw-bold mb-3">ระบบห้องสมุดออนไลน์</h2>
+        <p class="mb-1 opacity-75">ระบบยืม–คืนหนังสือ พร้อมระบบจองคิว</p>
+        <p class="opacity-75">สำหรับสมาชิกนักเรียนและบรรณารักษ์</p>
+        <hr class="border-light opacity-25 my-4">
+        <p class="small opacity-75 mb-0">ยังไม่มีบัญชี?</p>
+        <a href="{% url 'register' %}" class="btn btn-light btn-sm mt-2 fw-semibold" style="width: fit-content;">สมัครสมาชิกใหม่</a>
+      </div>
+      <div class="col-md-7 auth-form-side">
+        <h4 class="fw-bold mb-4">เข้าสู่ระบบ</h4>
+        <form method="post">
+          {% csrf_token %}
+          {% if form.errors %}
+            <div class="alert alert-danger rounded-xl">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่</div>
+          {% endif %}
+          <div class="mb-3">
+            <label class="form-label fw-semibold">ชื่อผู้ใช้</label>
+            <input type="text" name="username" class="form-control form-control-lg" required autofocus>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">รหัสผ่าน</label>
+            <input type="password" name="password" class="form-control form-control-lg" required>
+          </div>
+          <input type="hidden" name="next" value="{{ next }}">
+          <button type="submit" class="btn btn-lg w-100 text-white fw-semibold" style="background: var(--brand-purple);">
+            เข้าสู่ระบบ
+          </button>
+        </form>
+        <div class="text-center mt-4 small text-muted">
+          <strong>บัญชีทดสอบ:</strong><br>
+          แอดมิน: <code>admin</code> / <code>admin1234</code><br>
+          สมาชิก: <code>student1</code> / <code>student1234</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
