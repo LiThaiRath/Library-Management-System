@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}จัดการหนังสือ{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+  <h3 class="fw-bold mb-0">จัดการข้อมูลหนังสือ 📕</h3>
+  <a href="{% url 'admin_book_create' %}" class="btn text-white" style="background: var(--brand-purple);">+ เพิ่มหนังสือใหม่</a>
+</div>
+
+<form method="get" class="mb-3">
+  <div class="input-group shadow-sm rounded-xl overflow-hidden">
+    <input type="text" name="q" value="{{ q }}" class="form-control" placeholder="ค้นหาชื่อหนังสือ หรือ ISBN...">
+    <button class="btn btn-outline-secondary" type="submit">ค้นหา</button>
+  </div>
+</form>
+
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead><tr><th>ชื่อหนังสือ</th><th>ผู้แต่ง</th><th>หมวดหมู่</th><th>คงเหลือ/ทั้งหมด</th><th></th></tr></thead>
+    <tbody>
+      {% for book in books %}
+      <tr>
+        <td>{{ book.title }}</td>
+        <td>{{ book.author }}</td>
+        <td><span class="badge bg-light text-dark border">{{ book.category }}</span></td>
+        <td>{{ book.available }} / {{ book.quantity }}</td>
+        <td>
+          <a href="{% url 'admin_book_update' book.id %}" class="btn btn-sm btn-outline-primary">แก้ไข</a>
+          <form method="post" action="{% url 'admin_book_delete' book.id %}" class="d-inline" onsubmit="return confirm('ยืนยันการลบหนังสือนี้?');">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger">ลบ</button>
+          </form>
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="5" class="empty-state">ไม่พบข้อมูลหนังสือ</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

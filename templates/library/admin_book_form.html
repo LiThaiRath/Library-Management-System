@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-4">{{ title }}</h3>
+<div class="card card-lib p-4" style="max-width: 640px;">
+  <form method="post">
+    {% csrf_token %}
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">ISBN</label>
+        {{ form.isbn }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">หมวดหมู่</label>
+        {{ form.category }}
+      </div>
+      <div class="col-12">
+        <label class="form-label fw-semibold">ชื่อหนังสือ</label>
+        {{ form.title }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">ผู้แต่ง</label>
+        {{ form.author }}
+      </div>
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">สำนักพิมพ์</label>
+        {{ form.publisher }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">ปีที่พิมพ์</label>
+        {{ form.publish_year }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">จำนวนทั้งหมด</label>
+        {{ form.quantity }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">จำนวนคงเหลือ</label>
+        {{ form.available }}
+      </div>
+      <div class="col-md-4">
+        <label class="form-label fw-semibold">สีปก</label>
+        {{ form.cover_color }}
+      </div>
+    </div>
+    <button type="submit" class="btn text-white fw-semibold mt-4" style="background: var(--brand-purple);">บันทึกข้อมูล</button>
+    <a href="{% url 'admin_book_list' %}" class="btn btn-outline-secondary mt-4">ยกเลิก</a>
+  </form>
+</div>
+{% endblock %}

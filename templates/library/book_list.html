@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}ค้นหาหนังสือ{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-3">ค้นหาหนังสือ 🔍</h3>
+
+<form method="get" class="mb-4">
+  <div class="input-group input-group-lg shadow-sm rounded-xl overflow-hidden">
+    {{ form.q }}
+    <button class="btn text-white" style="background: var(--brand-purple);" type="submit">ค้นหา</button>
+  </div>
+</form>
+
+{% if query %}
+<p class="text-muted">ผลการค้นหาสำหรับ "<strong>{{ query }}</strong>" — พบ {{ books|length }} รายการ</p>
+{% endif %}
+
+<div class="row g-4">
+  {% for book in books %}
+  <div class="col-md-4 col-lg-3">
+    <div class="card card-lib h-100">
+      <div class="book-cover" style="background-color: {{ book.cover_color }};">📘</div>
+      <div class="card-body">
+        <h6 class="fw-bold mb-1">{{ book.title }}</h6>
+        <p class="text-muted small mb-1">{{ book.author }}</p>
+        <span class="badge bg-light text-dark border mb-2">{{ book.category }}</span>
+        <p class="small mb-2">
+          คงเหลือ:
+          {% if book.is_available %}
+            <span class="text-success fw-semibold">{{ book.available }} / {{ book.quantity }} เล่ม</span>
+          {% else %}
+            <span class="text-danger fw-semibold">หมด (0 / {{ book.quantity }})</span>
+          {% endif %}
+        </p>
+
+        {% if book.id in my_active_book_ids %}
+          <button class="btn btn-sm btn-outline-secondary w-100" disabled>คุณกำลังยืมเล่มนี้อยู่</button>
+        {% elif book.id in my_waiting_book_ids %}
+          <button class="btn btn-sm btn-outline-warning w-100" disabled>อยู่ในคิวจองแล้ว</button>
+        {% else %}
+          <form method="post" action="{% url 'borrow_book' book.id %}">
+            {% csrf_token %}
+            {% if book.is_available %}
+              <button class="btn btn-sm w-100 text-white" style="background: var(--brand-teal);">ยืมหนังสือเล่มนี้</button>
+            {% else %}
+              <button class="btn btn-sm w-100 text-white" style="background: var(--brand-amber);">จองคิว (หนังสือหมด)</button>
+            {% endif %}
+          </form>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="empty-state w-100">ไม่พบหนังสือที่ค้นหา</div>
+  {% endfor %}
+</div>
+{% endblock %}
