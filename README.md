@@ -163,10 +163,10 @@ MAX_BORROW_LIMIT = 5      # ยืมพร้อมกันได้สูง�
 ### แบ่งหน้าที่แนะนำ (ปรับตามความถนัดของทีมได้)
 | สมาชิก | ผิดชอบ Branch | หน้าที่ |
 |---|---|---|
-| คนที่ 1 | `feature/accounts` | ระบบ Login/Register, Member, AdminProfile |
-| คนที่ 2 | `feature/book-management` | จัดการหนังสือ (CRUD), ค้นหาหนังสือ |
-| คนที่ 3 | `feature/borrow-return` | ระบบยืม-คืน, คำนวณค่าปรับ, ระบบจองคิว |
-| คนที่ 4 | `feature/admin-reports` | แดชบอร์ดแอดมิน, รายงานสถิติ, UI/UX |
+| คนที่ 1 ตะวัน รุ่งโรจน์รัตน์ | `feature/accounts` | ระบบ Login/Register, Member, AdminProfile |
+| คนที่ 2 ณัฐพล ทระคำไพ | `feature/book-catalog` | จัดการหนังสือ (CRUD), ค้นหาหนังสือ |
+| คนที่ 3 ณัฐรัตน์ อ่วมขยัน | `feature/borrow-return` | ระบบยืม-คืน, คำนวณค่าปรับ, ระบบจองคิว |
+| คนที่ 4 สิริวิวัฒน์ วรวิพัฒนะ | `feature/admin-dashboard` | แดชบอร์ดแอดมิน, รายงานสถิติ, UI/UX |
 
 ### ขั้นตอนการทำงานร่วมกัน
 ```bash
