@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}รายการยืม-คืนของฉัน{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-4">รายการยืม-คืนหนังสือของฉัน 📖</h3>
+
+{% if borrows %}
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead>
+      <tr><th>ชื่อหนังสือ</th><th>วันที่ยืม</th><th>กำหนดคืน</th><th>สถานะ</th><th>ค่าปรับ</th><th></th></tr>
+    </thead>
+    <tbody>
+      {% for b in borrows %}
+      <tr>
+        <td>{{ b.book.title }}</td>
+        <td>{{ b.borrow_date|date:"d/m/Y" }}</td>
+        <td>{{ b.due_date|date:"d/m/Y" }}</td>
+        <td>
+          {% if b.status == 'returned' %}
+            <span class="badge badge-status bg-secondary">คืนแล้ว</span>
+          {% elif b.is_overdue %}
+            <span class="badge badge-status bg-danger">เกินกำหนด {{ b.days_overdue_now }} วัน</span>
+          {% else %}
+            <span class="badge badge-status bg-success">กำลังยืม</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if b.return_info %}{{ b.return_info.fine_amount }} บาท{% else %}-{% endif %}
+        </td>
+        <td>
+          {% if b.status == 'borrowed' %}
+          <form method="post" action="{% url 'return_book' b.id %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-primary">คืนหนังสือ</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">ยังไม่มีประวัติการยืมหนังสือ</div>
+{% endif %}
+{% endblock %}

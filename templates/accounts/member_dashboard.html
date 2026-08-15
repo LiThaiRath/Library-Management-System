@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% block title %}หน้าหลักสมาชิก{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-1">สวัสดี, {{ member.full_name }} 👋</h3>
+<p class="text-muted mb-4">{{ member.student_id }} · {{ member.class_name|default:"-" }}
+  {% if member.status == 'active' %}
+    <span class="badge badge-status bg-success ms-2">สถานะปกติ</span>
+  {% else %}
+    <span class="badge badge-status bg-danger ms-2">ถูกระงับการยืม</span>
+  {% endif %}
+</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-purple">
+      <div class="label">กำลังยืมอยู่</div>
+      <h3>{{ active_borrows.count }} / {{ borrow_limit }}</h3>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-red">
+      <div class="label">เกินกำหนดคืน</div>
+      <h3>{{ overdue_count }}</h3>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-teal">
+      <div class="label">คิวจองที่รออยู่</div>
+      <h3>{{ active_reservations.count }}</h3>
+    </div>
+  </div>
+  <div class="col-6 col-md-3">
+    <div class="stat-card bg-grad-amber">
+      <div class="label">ค่าปรับสะสม (บาท)</div>
+      <h3>{{ total_fine_history }}</h3>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4 quick-menu">
+  <div class="col-md-4">
+    <a href="{% url 'book_list' %}">
+      <div class="card card-lib p-4 h-100">
+        <div class="fs-2 mb-2">🔍</div>
+        <h5 class="fw-bold">ค้นหา / ยืมหนังสือ</h5>
+        <p class="text-muted small mb-0">ค้นหาหนังสือที่ต้องการและทำรายการยืม หรือจองคิวหากหนังสือหมด</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'my_borrows' %}">
+      <div class="card card-lib p-4 h-100">
+        <div class="fs-2 mb-2">📖</div>
+        <h5 class="fw-bold">นำหนังสือมาคืน</h5>
+        <p class="text-muted small mb-0">ดูรายการหนังสือที่ยืมอยู่ พร้อมทำรายการคืน</p>
+      </div>
+    </a>
+  </div>
+  <div class="col-md-4">
+    <a href="{% url 'my_reservations' %}">
+      <div class="card card-lib p-4 h-100">
+        <div class="fs-2 mb-2">⏳</div>
+        <h5 class="fw-bold">การจองของฉัน</h5>
+        <p class="text-muted small mb-0">ตรวจสอบคิวจองหนังสือ และยกเลิกการจอง</p>
+      </div>
+    </a>
+  </div>
+</div>
+
+<h5 class="section-title">หนังสือที่กำลังยืมอยู่</h5>
+{% if active_borrows %}
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead><tr><th>ชื่อหนังสือ</th><th>วันที่ยืม</th><th>กำหนดคืน</th><th>สถานะ</th><th></th></tr></thead>
+    <tbody>
+      {% for b in active_borrows %}
+      <tr>
+        <td>{{ b.book.title }}</td>
+        <td>{{ b.borrow_date|date:"d/m/Y" }}</td>
+        <td>{{ b.due_date|date:"d/m/Y" }}</td>
+        <td>
+          {% if b.is_overdue %}
+            <span class="badge badge-status bg-danger">เกินกำหนด {{ b.days_overdue_now }} วัน</span>
+          {% else %}
+            <span class="badge badge-status bg-success">ปกติ</span>
+          {% endif %}
+        </td>
+        <td>
+          <form method="post" action="{% url 'return_book' b.id %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-primary">คืนหนังสือ</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">ยังไม่มีหนังสือที่ยืมอยู่ในขณะนี้</div>
+{% endif %}
+{% endblock %}

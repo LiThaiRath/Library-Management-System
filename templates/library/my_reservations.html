@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}การจองของฉัน{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-4">การจองหนังสือของฉัน ⏳</h3>
+
+{% if reservations %}
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead><tr><th>ชื่อหนังสือ</th><th>วันที่จอง</th><th>สถานะ</th><th></th></tr></thead>
+    <tbody>
+      {% for r in reservations %}
+      <tr>
+        <td>{{ r.book.title }}</td>
+        <td>{{ r.reservation_date|date:"d/m/Y" }}</td>
+        <td>
+          {% if r.status == 'waiting' %}
+            <span class="badge badge-status bg-warning text-dark">รอคิว</span>
+          {% elif r.status == 'notified' %}
+            <span class="badge badge-status bg-info text-dark">พร้อมให้ยืมแล้ว - แจ้งเตือนแล้ว</span>
+          {% elif r.status == 'completed' %}
+            <span class="badge badge-status bg-success">รับหนังสือแล้ว</span>
+          {% else %}
+            <span class="badge badge-status bg-secondary">ยกเลิกแล้ว</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if r.status == 'waiting' or r.status == 'notified' %}
+          <form method="post" action="{% url 'cancel_reservation' r.id %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-danger">ยกเลิกการจอง</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<div class="empty-state">คุณยังไม่มีการจองหนังสือ</div>
+{% endif %}
+{% endblock %}

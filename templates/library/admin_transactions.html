@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}รายการยืม-คืนทั้งหมด{% endblock %}
+{% block content %}
+<h3 class="fw-bold mb-4">รายการยืม-คืนทั้งหมด 🔄</h3>
+
+<div class="btn-group mb-3">
+  <a href="?status=all" class="btn btn-sm {% if status == 'all' %}btn-primary{% else %}btn-outline-primary{% endif %}">ทั้งหมด</a>
+  <a href="?status=borrowed" class="btn btn-sm {% if status == 'borrowed' %}btn-primary{% else %}btn-outline-primary{% endif %}">กำลังยืม</a>
+  <a href="?status=overdue" class="btn btn-sm {% if status == 'overdue' %}btn-primary{% else %}btn-outline-primary{% endif %}">เกินกำหนด</a>
+  <a href="?status=returned" class="btn btn-sm {% if status == 'returned' %}btn-primary{% else %}btn-outline-primary{% endif %}">คืนแล้ว</a>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-lib align-middle bg-white rounded-xl overflow-hidden shadow-sm">
+    <thead><tr><th>สมาชิก</th><th>หนังสือ</th><th>วันที่ยืม</th><th>กำหนดคืน</th><th>สถานะ</th><th>ค่าปรับ</th><th></th></tr></thead>
+    <tbody>
+      {% for b in borrows %}
+      <tr>
+        <td>{{ b.member.full_name }}</td>
+        <td>{{ b.book.title }}</td>
+        <td>{{ b.borrow_date|date:"d/m/Y" }}</td>
+        <td>{{ b.due_date|date:"d/m/Y" }}</td>
+        <td>
+          {% if b.status == 'returned' %}
+            <span class="badge badge-status bg-secondary">คืนแล้ว</span>
+          {% elif b.is_overdue %}
+            <span class="badge badge-status bg-danger">เกินกำหนด {{ b.days_overdue_now }} วัน</span>
+          {% else %}
+            <span class="badge badge-status bg-success">กำลังยืม</span>
+          {% endif %}
+        </td>
+        <td>{% if b.return_info %}{{ b.return_info.fine_amount }} บาท{% else %}-{% endif %}</td>
+        <td>
+          {% if b.status == 'borrowed' %}
+          <form method="post" action="{% url 'return_book' b.id %}">
+            {% csrf_token %}
+            <button class="btn btn-sm btn-outline-primary">รับคืน</button>
+          </form>
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr><td colspan="7" class="empty-state">ไม่พบรายการ</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
